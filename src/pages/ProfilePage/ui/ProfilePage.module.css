@@ -1,0 +1,42 @@
+.textarea {
+	height: auto;
+	min-height: 100px;
+	resize: none;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 0 20px;
+}
+
+.form__title {
+	display: flex;
+	align-items: center;
+	margin: 24px 0;
+	color: #000000;
+	font-size: 28px;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
+.errorMessage {
+	align-self: flex-start;
+	color: red;
+	font-size: 12px;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	text-align: end;
+}
+
+.form__row {
+	display: flex;
+	gap: 12px;
+	width: 100%;
+}
+
+.form__row_min {
+	display: flex;
+	gap: 12px;
+	width: 50%;
+}

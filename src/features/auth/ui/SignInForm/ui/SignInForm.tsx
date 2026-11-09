@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import {
 	Avatar,
 	Box,
@@ -29,6 +29,13 @@ export const SignInForm: FC = () => {
 	// Из хука useSignUpMutation (был получен путем автогенерации)
 	// достаем функцию, которая будет (регистрировать пользователя) делать POST-запрос к нашем серверу)
 	const [signInRequestFn] = useSignInMutation();
+
+	const emailInputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		emailInputRef.current?.focus();
+	}, []);
+
 	// инициализируем react-hook-form
 	const {
 		// control понадобиться, чтобы подружить react-hook-form и компоненты из MUI
@@ -112,6 +119,7 @@ export const SignInForm: FC = () => {
 								type='email'
 								fullWidth
 								required
+								inputRef={emailInputRef}
 								autoComplete='email'
 								error={!!errors.email?.message}
 								helperText={errors.email?.message}

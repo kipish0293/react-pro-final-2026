@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 import s from './Button.module.css';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -7,23 +7,25 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	wide?: boolean;
 };
 
-export const Button = ({
-	variant = 'primary',
-	wide = false,
-	className,
-	children,
-	...restProps
-}: ButtonProps) => {
-	return (
-		<button
-			{...restProps}
-			className={classNames(
-				s['button'],
-				s[`button_type_${variant}`],
-				{ [s['button_type_wide']]: wide },
-				className
-			)}>
-			{children}
-		</button>
-	);
-};
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+	(
+		{ variant = 'primary', wide = false, className, children, ...restProps },
+		ref
+	) => {
+		return (
+			<button
+				{...restProps}
+				ref={ref}
+				className={classNames(
+					s['button'],
+					s[`button_type_${variant}`],
+					{ [s['button_type_wide']]: wide },
+					className
+				)}>
+				{children}
+			</button>
+		);
+	}
+);
+
+Button.displayName = 'Button';

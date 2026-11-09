@@ -1,11 +1,15 @@
 import s from './CartAmount.module.css';
 import classNames from 'classnames';
+import { useRef, useState } from 'react';
 import { Button } from '../../../../../shared/ui/Button';
+import { Modal } from '../../../../../shared/ui/Modal';
 import { useAppSelector } from '../../../../../shared/store/utils';
 import { cartSelectors } from '../../../model/cart';
 
 export const CartAmount = () => {
 	const products = useAppSelector(cartSelectors.getCartProducts);
+	const [isOrderOpen, setIsOrderOpen] = useState(false);
+	const orderButtonRef = useRef<HTMLButtonElement>(null);
 
 	const allPrice = products.reduce((acc, p) => p.price * p.count + acc, 0);
 	const allDiscount = products.reduce(
@@ -16,6 +20,7 @@ export const CartAmount = () => {
 	const handleSubmitCart = () => {
 		const order = products.map((p) => ({ id: p.id, count: p.count }));
 		console.log('Отправка заказа на сервер: ', JSON.stringify(order, null, 2));
+		setIsOrderOpen(false);
 	};
 
 	return (
@@ -51,9 +56,27 @@ export const CartAmount = () => {
 					{`${allPrice - allDiscount} ₽`}
 				</span>
 			</div>
-			<Button wide onClick={handleSubmitCart}>
+			<Button wide ref={orderButtonRef} onClick={() => setIsOrderOpen(true)}>
 				Оформить заказ
 			</Button>
+			<Modal
+				isOpen={isOrderOpen}
+				title='Оформление заказа'
+				closeHandler={() => setIsOrderOpen(false)}
+				triggerRef={orderButtonRef}
+				body={
+					<>
+						<p className={classNames(s['cart-amount__order-text'])}>
+							{`Товаров в заказе: ${products.length}. К оплате: ${
+								allPrice - allDiscount
+							} ₽`}
+						</p>
+						<Button wide onClick={handleSubmitCart}>
+							Подтвердить заказ
+						</Button>
+					</>
+				}
+			/>
 		</div>
 	);
 };

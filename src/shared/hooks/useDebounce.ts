@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useDebounce = <V>(outerValue: V, ms: number) => {
 	const [optimizedValue, setOptimizedValue] = useState<V>(outerValue);
+	const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+		undefined
+	);
 
 	useEffect(() => {
-		const timeoutId = setTimeout(() => {
+		clearTimeout(timeoutIdRef.current);
+
+		timeoutIdRef.current = setTimeout(() => {
 			setOptimizedValue(outerValue);
 		}, ms);
 
-		return () => clearTimeout(timeoutId);
+		return () => clearTimeout(timeoutIdRef.current)
 	}, [ms, outerValue]);
 
 	return optimizedValue;

@@ -1,5 +1,5 @@
 import s from './LikeButton.module.css';
-import { ReactComponent as LikeSvg } from '../../../../../shared/assets/icons/like.svg';
+import { LikeIcon } from '../../../../../shared/assets/icons/LikeIcon';
 import classNames from 'classnames';
 import { useAppSelector } from '../../../../../shared/store/utils';
 import { userSelectors } from '../../../../auth/model/user';
@@ -46,7 +46,7 @@ export const LikeButton = ({ product }: TLikeButtonProps) => {
 				[s['card__favorite_is-active']]: isLike,
 			})}
 			onClick={toggleLike}>
-			<LikeSvg />
+			<LikeIcon />
 		</button>
 	);
 };

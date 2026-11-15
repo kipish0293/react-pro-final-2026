@@ -9,12 +9,12 @@ import {
 	IErrorResponse,
 } from '../../../../products/api/productsApi';
 import { toast } from 'react-toastify';
-import { startTransition, useOptimistic } from 'react';
+import { memo, startTransition, useCallback, useOptimistic } from 'react';
 
 type TLikeButtonProps = {
 	product: Product;
 };
-export const LikeButton = ({ product }: TLikeButtonProps) => {
+export const LikeButton = memo(({ product }: TLikeButtonProps) => {
 	const accessToken = useAppSelector(userSelectors.getAccessToken);
 	const user = useAppSelector(userSelectors.getUser);
 
@@ -28,7 +28,7 @@ export const LikeButton = ({ product }: TLikeButtonProps) => {
 		(_, newLikeValue) => newLikeValue
 	);
 
-	const toggleLike = () => {
+	const toggleLike = useCallback(() => {
 		if (!accessToken) {
 			toast.warning('Вы не авторизованы');
 			return;
@@ -52,7 +52,7 @@ export const LikeButton = ({ product }: TLikeButtonProps) => {
 				}, 3000);
 			});
 		});
-	};
+	}, [accessToken, isLike, deleteLike, setLike, product.id, setOptimisticLike]);
 
 	return (
 		<button
@@ -63,4 +63,4 @@ export const LikeButton = ({ product }: TLikeButtonProps) => {
 			<LikeIcon />
 		</button>
 	);
-};
+});

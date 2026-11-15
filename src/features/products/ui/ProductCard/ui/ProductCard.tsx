@@ -1,10 +1,13 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/display-name */
+import { memo, useCallback } from 'react';
 import classNames from 'classnames';
 import s from './ProductCard.module.css';
 import { Price } from '../../../../../shared/ui/Price';
 import { Link } from 'react-router-dom';
 import { LikeButton } from '../../../../favorites/ui/LikeButton';
 import { useAppSelector } from '../../../../../shared/store/utils';
-import { cartSelectors } from '../../../../cart/model/cart';
 import { useAddToCart } from '../../../../cart/lib/useAddToCart';
 import { CartCounter } from '../../../../cart/ui/CartCounter';
 import { Button } from '../../../../../shared/ui/Button';
@@ -12,11 +15,17 @@ import { Button } from '../../../../../shared/ui/Button';
 type ProductCardProps = {
 	product: Product;
 };
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = memo(({ product }: ProductCardProps) => {
 	const { discount, price, name, tags, id, images } = product;
-	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
-	const isProductInCart = cartProducts.some((p) => p.id === id);
+	const isProductInCart = useAppSelector((state) =>
+		state.cart.products.some((p) => p.id === id)
+	);
 	const { addProductToCart } = useAddToCart();
+
+	const handleAddToCart = useCallback(
+		() => addProductToCart({ ...product, count: 1 }),
+		[addProductToCart, product]
+	);
 
 	return (
 		<article className={s['card']}>
@@ -55,12 +64,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 			{isProductInCart ? (
 				<CartCounter productId={id} />
 			) : (
-				<Button
-					className={s['card__cart']}
-					onClick={() => addProductToCart({ ...product, count: 1 })}>
+				<Button className={s['card__cart']} onClick={handleAddToCart}>
 					В корзину
 				</Button>
 			)}
 		</article>
 	);
-};
+});

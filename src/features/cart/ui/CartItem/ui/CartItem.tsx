@@ -5,17 +5,19 @@ import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../../model/cart';
 import { CartCounter } from '../../CartCounter';
+import { memo, useCallback } from 'react';
 
 type CartItemProps = {
 	product: CartProduct;
 };
-export const CartItem = ({ product }: CartItemProps) => {
+export const CartItem = memo(({ product }: CartItemProps) => {
 	const dispatch = useDispatch();
 	const { id, name, images, price, discount } = product;
 
-	const handleDelete = () => {
+	const handleDelete = useCallback(() => {
 		dispatch(cartActions.deleteCartProduct(id));
-	};
+	}, [dispatch, id]);
+
 	return (
 		<div className={classNames(s['cart-item'])}>
 			<div className={classNames(s['cart-item__desc'])}>
@@ -56,4 +58,4 @@ export const CartItem = ({ product }: CartItemProps) => {
 			</div>
 		</div>
 	);
-};
+})

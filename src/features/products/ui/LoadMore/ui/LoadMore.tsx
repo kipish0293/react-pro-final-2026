@@ -4,7 +4,7 @@ import { Loader } from '../../../../../shared/ui/Loader';
 import { useLoadMore } from '../hooks/useLoadMore';
 
 export const LoadMore = () => {
-	const ref = useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLDivElement | null>(null);
 	const { isEndOfList, isFetching } = useLoadMore({ ref });
 
 	return (

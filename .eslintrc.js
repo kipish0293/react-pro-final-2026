@@ -23,8 +23,8 @@ module.exports = {
 		'plugin:eslint-comments/recommended',
 	],
 	rules: {
-		semi: [2, 'always'],
-		quotes: [2, 'single', { avoidEscape: true }],
+		semi: 'off',
+		quotes: 'off',
 		'no-unused-vars': 'off',
 		'@typescript-eslint/no-unused-vars': ['error'],
 		'@typescript-eslint/no-var-requires': 'off',

@@ -9,7 +9,7 @@ import { cartSelectors } from '../../../model/cart';
 export const CartAmount = () => {
 	const products = useAppSelector(cartSelectors.getCartProducts);
 	const [isOrderOpen, setIsOrderOpen] = useState(false);
-	const orderButtonRef = useRef<HTMLButtonElement>(null);
+	const orderButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	const allPrice = products.reduce((acc, p) => p.price * p.count + acc, 0);
 	const allDiscount = products.reduce(

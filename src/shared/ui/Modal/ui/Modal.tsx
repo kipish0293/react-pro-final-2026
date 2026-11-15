@@ -9,7 +9,7 @@ interface Props {
 	title: string;
 	body: ReactNode;
 	closeHandler: () => void;
-	triggerRef?: RefObject<HTMLElement>;
+	triggerRef?: RefObject<HTMLElement | null>;
 }
 
 export const Modal: FC<Props> = ({ isOpen, ...restProps }) => {
